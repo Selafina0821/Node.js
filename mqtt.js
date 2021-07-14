@@ -13,16 +13,16 @@ client.on('connect', function () {
   console.log('已連接至MQTT伺服器');
   client.subscribe("nodejs");
 });
-
+client.on('message', function (topic, msg) { 
+    console.log('收到 ' + topic + ' 主題，訊息：' + msg.toString());
+    
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', (socket) => {
   console.log('front-end connected');
-  client.on('message', function (topic, msg) { 
-    console.log('收到 ' + topic + ' 主題，訊息：' + msg.toString());
-    socket.emit('mqtt', { 'msg': msg.toString() });
+  socket.emit('mqtt',  msg.toString() );
 });
 });
 
