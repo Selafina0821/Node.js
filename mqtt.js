@@ -55,16 +55,22 @@ client.on('message', (_, msg) => {
     // store msg to redis database
     io.sockets.emit('mqtt', msg.toString()); // to all socket clients
 })
+
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/test2.html');
 });
 
-//io.on('connection', (socket) => {
-//  console.log('front-end connected');
+io.on('connection', (socket) => {
+  console.log('front-end connected');
 //  socket.emit('mqtt',  msg.toString() );
-//});
+  io.on('web_data', function(data) {
+    console.log("web_msg")
+    process.stdout.write(data.letter);
+  });
+});
 
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
 });
+
