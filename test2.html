@@ -4,35 +4,9 @@
     </head>
 
     <body>
-        <h1>waiting for mqtt publish msg</h1>
-        <p id='message'>::init message::</p>
-        <textarea id="text"></textarea>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-            var socket = io();
-            socket.on('mqtt', function (msg){
-                console.log('mqtt');
-                console.log(msg);
-                // document.getElementById('message').innerHTML = msg
-                // document.writeln("<p>"+msg+"</p>");
-                
-                // https://javascript.info/modifying-document
-                let p = document.createElement('p');
-                // div.className = "alert";
-                // div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
-                p.innerHTML = msg
-                document.body.append(p);
-            })
-            $(document).ready(function(){
-              $('#text').keypress(function(e){
-                socket.emit('web_data', {
-                'letter': String.fromCharCode(e.charCode)
-                });
-              });
-            });
-            
-            
-        </script>
-        
+        <form action='/test3' method='post'> 
+            <input type='text' name='test' value=""> 
+            <input type='submit' value='Submit'>
+        </form>
     </body>
 </html>

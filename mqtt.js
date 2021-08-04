@@ -7,6 +7,7 @@ const io = new Server(server);
 var mqtt = require('mqtt');
 var opt = {port:1883,};
 const client  = mqtt.connect('mqtt://120.126.16.88',opt);
+var bodyParser = require('body-parser');
 
 // Functions
 function getDatetime(){
@@ -57,18 +58,36 @@ client.on('message', (_, msg) => {
 })
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/test2.html');
+  res.sendFile(__dirname + '/test3.html');
 });
 
-io.on('connection', (socket) => {
-  console.log('front-end connected');
+//var testInput = document.getElementById("testInput");
+//var submitBtn = document.querySelector(".submitBtn");
+//function FsubmitBtn(value) {
+//  var str = "";
+//  var submitValue = testInput.value;
+//  str = submitValue;
+//  alert(str);
+//  console.log(str);
+//}
+//submitBtn.addEventListener("click", FsubmitBtn);
+
+
+app.post('/test3', function(req, res) {
+  console.log('app success')
+  
+  console.log(req.params.name);
+});
+
+//io.on('connection', (socket) => {
+// console.log('front-end connected');
 //  socket.emit('mqtt',  msg.toString() );
-  io.on('web_data', function(data) {
-    console.log("web_msg")
-    process.stdout.write(data.letter);
-  });
-});
-
+  
+//});
+//io.on('web_data', function(data) {
+//    console.log("web_msg")
+//    process.stdout.write(data.letter);
+//  });
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
