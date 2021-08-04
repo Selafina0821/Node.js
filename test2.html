@@ -23,18 +23,14 @@
                 p.innerHTML = msg
                 document.body.append(p);
             })
-            //$(document).ready(function(){
-            //  $('#text').keypress(function(e){
-            //    socket.emit('web_data', {
-            //    'letter': String.fromCharCode(e.charCode)
-            //    });
-            //  });
-            //});
-            $('#text').keypress(function(e){
+            $(document).ready(function(){
+              $('#text').keypress(function(e){
                 socket.emit('web_data', {
                 'letter': String.fromCharCode(e.charCode)
                 });
               });
+            });
+            
             
         </script>
         
