@@ -6,7 +6,7 @@ const { Server } = require('socket.io');
 const io = new Server(server);
 var mqtt = require('mqtt');
 var opt = {port:1883,};
-const client  = mqtt.connect('mqtt://120.126.18.104',opt);
+const client  = mqtt.connect('mqtt://120.126.18.132',opt);
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://120.126.18.104:27017/";
 
@@ -51,7 +51,7 @@ function getDatetime(){
 
 client.on('connect', function () {
   console.log('已連接至MQTT伺服器');
-  client.subscribe("nodejs");
+  client.subscribe("test");
   
   
 });
@@ -59,7 +59,8 @@ client.on('connect', function () {
 client.on('message', function (_, msg) { 
   console.log( getDatetime() + " >> "+ msg.toString());
   // store msg to redis database
-  io.sockets.emit('mqtt', msg.toString()); // to all socket clients
+  //io.sockets.emit('mqtt', msg.toString()); // to all socket clients       要得
+  console.log(msg.toString);
 });
 client.on('message', (_, msg) => {
   MongoClient.connect(url, function (err, db) {
@@ -86,19 +87,24 @@ app.get('/', (req, res) => {
 });
 
 // Parse URL-encoded bodies (as sent by HTML forms)
-app.use(express.urlencoded());
+app.use(express.urlencoded({
+  extended: true
+}));
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
 // Access the parse results as request.body
 app.post('/', function(request, response){
-     username =request.body.user.name;
-     useremail =request.body.user.email;
+
+  console.log(request.body.username);
+  console.log(request.body.useremail);
+     username =request.body.username;
+     useremail =request.body.useremail;
      str ={'name':username,'email':useremail}
     var strToObj=JSON.stringify({'name':username,'email':useremail});
-    console.log(username);
-    console.log(useremail);
+    //console.log(username);
+    //console.log(useremail);
     client.publish('web',"'"+strToObj+"'");
 });
 
